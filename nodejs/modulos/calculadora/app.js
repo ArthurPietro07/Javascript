@@ -1,8 +1,11 @@
-const calculadora = require('./calculadora');
-const calculaIdade = require('./calcula_idade')
+// const calculadora = require('./calculadora');
+// const calculaIdade = require('./calcula_idade')
 
-const resultadoSoma = calculadora.soma(2, 3);
-const resultadoDivisao = calculadora.divisao(10, 2);
+import {soma,divisao,subtracao,multiplicacao} from './calculadora.js';
+import * as calculaIdade from './calcula_idade.js';
+
+const resultadoSoma = soma(2, 3);
+const resultadoDivisao = divisao(10, 10);
 const resultadoIdade = calculaIdade.idade(2008)
 
-console.log(`Em 2025 você tem ${resultadoIdade} anos`)
+console.log(resultadoDivisao)

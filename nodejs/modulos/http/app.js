@@ -1,5 +1,6 @@
 // Importa o módulo http nativo do Node.js
-const http = require('http');
+//const http = require('http');
+import http from 'http'
 // Cria um servidor HTTP
 http.createServer((req,res) => {
     // Define o status 200 (OK) e o tipo de conteúdo como texto simples

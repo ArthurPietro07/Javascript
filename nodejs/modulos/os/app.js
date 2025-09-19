@@ -1,5 +1,6 @@
 // Importa o módulo 'os' do Node.js para acessar informações do sistema operacional
-const os = require('os');
+//const os = require('os');
+import os from 'os';
 // Exibe no console qual sistema operacional está sendo utilizado
 console.log(`Você esta usando o ${os.platform()}`);
 // Exibe a arquitetura do sistema operacional (ex: x64, arm)
