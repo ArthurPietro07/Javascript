@@ -1,8 +1,8 @@
 // const calculadora = require('./calculadora');
 // const calculaIdade = require('./calcula_idade')
 
-import {soma,divisao,subtracao,multiplicacao} from './calculadora.js';
-import * as calculaIdade from './calcula_idade.js';
+import {soma,divisao,subtracao,multiplicacao} from './modulos/calculadora.js';
+import * as calculaIdade from './modulos/calcula_idade.js';
 
 const resultadoSoma = soma(2, 3);
 const resultadoDivisao = divisao(10, 10);
