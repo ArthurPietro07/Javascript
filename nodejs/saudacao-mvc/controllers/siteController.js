@@ -1,4 +1,6 @@
 const saudacaoModel = require('../models/saudacaoModel');
+const loginModel = require('../models/loginModel');
+const { login } = require('./clientesController');
 
 module.exports = {
   index: (req, res) => {
@@ -16,5 +18,10 @@ module.exports = {
   },
   usuarios: (req, res) => {
     res.sendFile('usuarios.html', { root: './views' });
-  },
+  }, 
+  loginMensagem: (req, res) => {
+    const { email, senha } = req.body;
+    const mensagemP = loginModel.gerarMensagem(email, senha);
+    res.send(`<h1>${mensagemP}</h1>`);
+  }
 };

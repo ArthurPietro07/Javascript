@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Produtos</title>
+    <style>
+        :root{
+            --accent:#2b7a78;
+            --muted:#6c757d;
+            --bg:#f7f7f8;
+            --card:#ffffff;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        body{margin:0;background:var(--bg);color:#222}
+        header{
+            background:linear-gradient(90deg,var(--accent),#3aa0a0);
+            color:#fff;padding:18px 20px;
+            display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+        }
+        header h1{margin:0;font-size:1.25rem}
+        .controls{margin-left:auto;display:flex;gap:8px;align-items:center}
+        .search{
+            display:flex;align-items:center;background:rgba(255,255,255,0.12);padding:6px 8px;border-radius:8px;
+        }
+        .search input{border:0;background:transparent;color:#fff;outline:none;width:180px}
+        .btn{
+            background:#fff;color:var(--accent);border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600;
+        }
+        .container{max-width:1100px;margin:20px auto;padding:0 16px}
+        .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px;flex-wrap:wrap}
+        .grid{
+            display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;
+        }
+        .card{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:10px}
+        .card img{width:100%;height:130px;object-fit:cover;border-radius:8px}
+        .meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+        .price{font-weight:700;color:var(--accent)}
+        .muted{color:var(--muted);font-size:0.9rem}
+        .actions{display:flex;gap:8px}
+        .small{padding:6px 8px;font-size:0.85rem;border-radius:8px;border:1px solid #eee;background:#fafafa;cursor:pointer}
+        form.card{max-width:480px}
+        label{font-size:0.85rem;color:var(--muted)}
+        input[type="text"],input[type="number"],textarea,select{
+            width:100%;padding:8px;border-radius:8px;border:1px solid #e6e6e6;margin-top:6px;box-sizing:border-box;
+        }
+        textarea{min-height:80px;resize:vertical}
+        table{width:100%;border-collapse:collapse;background:var(--card);border-radius:8px;overflow:hidden}
+        th,td{padding:10px;border-bottom:1px solid #f0f0f0;text-align:left}
+        th{background:#fafafa;font-weight:600}
+        .hidden{display:none}
+        footer{max-width:1100px;margin:24px auto;color:var(--muted);font-size:0.9rem;padding:0 16px}
+        @media (max-width:520px){
+            .controls{width:100%;justify-content:space-between}
+            .search input{width:120px}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Catálogo de Produtos</h1>
+        <div class="controls">
+            <div class="search" title="Pesquisar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.9"><path d="M21 21l-4.35-4.35" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <input id="filtro" placeholder="Pesquisar produtos..." />
+            </div>
+            <button id="btnToggleForm" class="btn">Novo produto</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="toolbar">
+            <div class="muted">Mostrando <span id="contador">0</span> produtos</div>
+            <div style="display:flex;gap:8px">
+                <button id="btnGrid" class="small">Grade</button>
+                <button id="btnTable" class="small">Tabela</button>
+            </div>
+        </div>
+
+        <!-- Formulário para adicionar produto -->
+        <form id="formProduto" class="card hidden" autocomplete="off">
+            <h3 style="margin:0 0 8px 0">Adicionar produto</h3>
+            <label>Nome
+                <input id="nome" type="text" required placeholder="Ex: Camiseta básica" />
+            </label>
+            <label>Preço
+                <input id="preco" type="number" min="0" step="0.01" required placeholder="0.00" />
+            </label>
+            <label>Categoria
+                <input id="categoria" type="text" placeholder="Ex: Roupas, Eletrônicos" />
+            </label>
+            <label>Imagem (URL)
+                <input id="imagem" type="text" placeholder="https://..." />
+            </label>
+            <label>Descrição
+                <textarea id="descricao" placeholder="Descrição curta"></textarea>
+            </label>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+                <button type="reset" class="small">Limpar</button>
+                <button type="submit" class="btn">Salvar</button>
+            </div>
+        </form>
+
+        <!-- Lista em grade -->
+        <section id="listaGrid" class="grid" aria-live="polite" style="margin-top:12px"></section>
+
+        <!-- Lista em tabela -->
+        <section id="listaTable" class="hidden" style="margin-top:12px">
+            <table>
+                <thead>
+                    <tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Descrição</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>Esta é uma visão básica de produtos. Use o formulário para adicionar itens à lista localmente.</footer>
+
+    <script>
+        // Dados iniciais de exemplo
+        const produtos = [
+            {id:1,nome:"Camiseta Básica",preco:39.90,categoria:"Roupas",descricao:"Algodão confortável",imagem:"https://picsum.photos/seed/camiseta/400/300"},
+            {id:2,nome:"Fone Bluetooth",preco:129.00,categoria:"Eletrônicos",descricao:"Som estéreo, cancelamento parcial",imagem:"https://picsum.photos/seed/fone/400/300"},
+            {id:3,nome:"Caderno A5",preco:14.50,categoria:"Papelaria",descricao:"100 folhas pautadas",imagem:"https://picsum.photos/seed/caderno/400/300"}
+        ];
+
+        const listaGrid = document.getElementById('listaGrid');
+        const tableBody = document.getElementById('tableBody');
+        const contador = document.getElementById('contador');
+        const filtro = document.getElementById('filtro');
+        const form = document.getElementById('formProduto');
+        const btnToggleForm = document.getElementById('btnToggleForm');
+        const btnGrid = document.getElementById('btnGrid');
+        const btnTable = document.getElementById('btnTable');
+        const listaTable = document.getElementById('listaTable');
+
+        let view = 'grid'; // 'grid' ou 'table'
+
+        function render(){
+            const termo = filtro.value.trim().toLowerCase();
+            const vis = produtos.filter(p => (
+                p.nome.toLowerCase().includes(termo) ||
+                (p.categoria||'').toLowerCase().includes(termo) ||
+                (p.descricao||'').toLowerCase().includes(termo)
+            ));
+
+            contador.textContent = vis.length;
+
+            // Grade
+            listaGrid.innerHTML = '';
+            vis.forEach(p => {
+                const div = document.createElement('article');
+                div.className = 'card';
+                div.innerHTML = `
+                    <img src="${p.imagem || 'https://picsum.photos/seed/placeholder/400/300'}" alt="${escapeHtml(p.nome)}" />
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <strong>${escapeHtml(p.nome)}</strong>
+                            <div class="price">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
+                        </div>
+                        <div class="muted">${escapeHtml(p.categoria || '')}</div>
+                        <p style="margin:8px 0 0 0">${escapeHtml(p.descricao || '')}</p>
+                    </div>
+                    <div class="actions" style="margin-top:auto">
+                        <button class="small" data-id="${p.id}" data-action="editar">Editar</button>
+                        <button class="small" data-id="${p.id}" data-action="excluir">Excluir</button>
+                    </div>
+                `;
+                listaGrid.appendChild(div);
+            });
+
+            // Tabela
+            tableBody.innerHTML = '';
+            vis.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${escapeHtml(p.nome)}</strong><div class="muted">${escapeHtml(p.imagem || '')}</div></td>
+                    <td>${escapeHtml(p.categoria || '')}</td>
+                    <td>R$ ${Number(p.preco).toFixed(2).replace('.',',')}</td>
+                    <td>${escapeHtml(p.descricao || '')}</td>
+                    <td><button class="small" data-id="${p.id}" data-action="editar">Editar</button> <button class="small" data-id="${p.id}" data-action="excluir">Excluir</button></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            // ajustar visualização
+            listaGrid.classList.toggle('hidden', view !== 'grid');
+            listaTable.classList.toggle('hidden', view !== 'table');
+        }
+
+        function escapeHtml(text){
+            if(!text) return '';
+            return text.toString()
+                .replace(/&/g,"&amp;")
+                .replace(/</g,"&lt;")
+                .replace(/>/g,"&gt;")
+                .replace(/"/g,"&quot;")
+                .replace(/'/g,"&#039;");
+        }
+
+        // eventos
+        filtro.addEventListener('input', ()=>render());
+
+        btnToggleForm.addEventListener('click', ()=>{
+            form.classList.toggle('hidden');
+            form.scrollIntoView({behavior:'smooth',block:'center'});
+        });
+
+        btnGrid.addEventListener('click', ()=>{ view='grid'; render(); });
+        btnTable.addEventListener('click', ()=>{ view='table'; render(); });
+
+        form.addEventListener('submit', (ev)=>{
+            ev.preventDefault();
+            const n = document.getElementById('nome').value.trim();
+            const pr = parseFloat(document.getElementById('preco').value) || 0;
+            const cat = document.getElementById('categoria').value.trim();
+            const img = document.getElementById('imagem').value.trim();
+            const desc = document.getElementById('descricao').value.trim();
+
+            const id = Date.now();
+            produtos.unshift({id,nome:n,preco:pr,categoria:cat,imagem:img,descricao:desc});
+            form.reset();
+            form.classList.add('hidden');
+            render();
+        });
+
+        // delegado para editar/excluir (aplica a ambos grid e tabela)
+        document.addEventListener('click', (ev)=>{
+            const btn = ev.target.closest('button[data-action]');
+            if(!btn) return;
+            const id = Number(btn.dataset.id);
+            const action = btn.dataset.action;
+            if(action === 'excluir'){
+                const idx = produtos.findIndex(p=>p.id===id);
+                if(idx>-1){
+                    if(confirm('Excluir este produto?')) produtos.splice(idx,1);
+                    render();
+                }
+            } else if(action === 'editar'){
+                const p = produtos.find(x=>x.id===id);
+                if(!p) return;
+                // pré-preencher formulário para edição simples (substitui item ao salvar)
+                form.classList.remove('hidden');
+                document.getElementById('nome').value = p.nome;
+                document.getElementById('preco').value = p.preco;
+                document.getElementById('categoria').value = p.categoria || '';
+                document.getElementById('imagem').value = p.imagem || '';
+                document.getElementById('descricao').value = p.descricao || '';
+                // remover item antigo; ao salvar será reinserido no início
+                const idx = produtos.findIndex(x=>x.id===id);
+                if(idx>-1) produtos.splice(idx,1);
+                window.scrollTo({top:0,behavior:'smooth'});
+            }
+        });
+
+        // render inicial
+        render();
+    </script>
+</body>
+</html></div>   

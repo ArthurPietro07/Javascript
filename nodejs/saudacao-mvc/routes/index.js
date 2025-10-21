@@ -6,5 +6,6 @@ router.get('/', siteController.index);
 router.get('/formulario', siteController.formulario);
 router.post('/saudacao', siteController.saudacao);
 router.get('/usuarios', siteController.usuarios);
+router.post('/login', siteController.loginMensagem);
 
 module.exports = router;

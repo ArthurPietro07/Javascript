@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Loja de Camisetas</title>
+    <link rel="stylesheet" href="../stylesheets/estilo.css">
+    <style>
+        :root {
+            --accent: #1a73e8;
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --muted: #6b7280;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: var(--bg);
+            color: #111827;
+            -webkit-font-smoothing:antialiased;
+        }
+        header {
+            background: linear-gradient(90deg, rgba(26,115,232,0.95), rgba(58,136,255,0.9));
+            color: white;
+            padding: 2.25rem 1rem;
+            text-align: center;
+        }
+        header h1 { margin: 0 0 .25rem; font-size: 1.5rem; }
+        header p { margin: 0; opacity: .95; }
+
+        .container { max-width: 1100px; margin: 1.5rem auto; padding: 0 1rem; }
+
+        .controls { display:flex; gap:.5rem; justify-content:flex-end; margin-bottom: .75rem; }
+        .search {
+            flex:1;
+            min-width: 140px;
+            padding:.5rem .75rem;
+            border-radius:8px;
+            border:1px solid #e6e9ee;
+            background:white;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(17,24,39,0.06);
+            display:flex;
+            flex-direction:column;
+        }
+        .card img { width:100%; height:200px; object-fit:cover; display:block; }
+        .card .content { padding: 1rem; display:flex; flex-direction:column; gap:.5rem; flex:1; }
+        .card h3 { margin:0; font-size:1.05rem; }
+        .card p { margin:0; color:var(--muted); font-size:.95rem; }
+        .row { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-top:.75rem; }
+        .price { font-weight:700; color:var(--accent); }
+        .btn {
+            background: var(--accent);
+            color:white;
+            padding:.45rem .65rem;
+            border-radius:8px;
+            text-decoration:none;
+            font-size:.95rem;
+            box-shadow: 0 6px 14px rgba(26,115,232,0.18);
+        }
+
+        footer { text-align:center; color: #8b8f97; font-size:.9rem; padding:1rem 0; margin-top:1.25rem; }
+        @media (max-width:480px) {
+            header h1 { font-size:1.15rem; }
+            .card img { height:160px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Bem-vindo à página de camisetas</h1>
+        <p>Estilos confortáveis e modernos — escolha a sua!</p>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <input class="search" type="search" placeholder="Buscar camisetas (ex: básica, estampada)">
+            <a class="btn" href="#" style="padding:.45rem .9rem;">Filtrar</a>
+        </div>
+
+        <section class="grid">
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=60" alt="Camiseta básica branca">
+                <div class="content">
+                    <h3>Camiseta Básica</h3>
+                    <p>Algodão premium, caimento regular — perfeita para o dia a dia.</p>
+                    <div class="row">
+                        <div class="price">R$ 49,90</div>
+                        <a class="btn" href="#">Comprar</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1520975698514-2f1f2f3c8f86?auto=format&fit=crop&w=800&q=60" alt="Camiseta estampada">
+                <div class="content">
+                    <h3>Camiseta Estampada</h3>
+                    <p>Estampa exclusiva com cores vibrantes e toque suave.</p>
+                    <div class="row">
+                        <div class="price">R$ 69,90</div>
+                        <a class="btn" href="#">Comprar</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=60" alt="Camiseta gola V">
+                <div class="content">
+                    <h3>Camiseta Gola V</h3>
+                    <p>Design moderno com acabamento reforçado na gola.</p>
+                    <div class="row">
+                        <div class="price">R$ 59,90</div>
+                        <a class="btn" href="#">Comprar</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card">
+                <img src="https://images.unsplash.com/photo-1503342452485-86f7f8a1cfb7?auto=format&fit=crop&w=800&q=60" alt="Camiseta esportiva">
+                <div class="content">
+                    <h3>Camiseta Esportiva</h3>
+                    <p>Material leve e respirável, ideal para atividades físicas.</p>
+                    <div class="row">
+                        <div class="price">R$ 79,90</div>
+                        <a class="btn" href="#">Comprar</a>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        © 2025 Sua Loja • Feito com cuidado
+    </footer>
+</body>
+
+</html>
