@@ -1,7 +1,9 @@
 module.exports = {
     gerarMensagem: (email, senha) => {
-        // Aqui você pode implementar a lógica para gerar uma mensagem personalizada
-        // com base no email e senha fornecidos.
-        return `Olá, ${email}! Sua senha é ${senha}.`;
+        if (email === "arthur@gmail.com" && senha === "12345") {
+            return `Login válido. Bem vindo ${email}`;
+        } else {
+            return "Login inválido";
+        }
     }
 };

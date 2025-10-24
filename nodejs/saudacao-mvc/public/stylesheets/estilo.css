@@ -1,16 +1,72 @@
+/* Reset básico para consistência entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Corpo da página */
 body {
-  font-family: Arial, sans-serif;
-  padding: 2rem;
-  background: #f0f0f0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background: #f5f6fa;
+    color: #333;
+    padding: 2rem;
 }
 
-h1 {
-  color: #222;
+/* Container principal */
+h1, h2 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
-form {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  display: inline-block;
+/* Link */
+a {
+    display: block;
+    text-decoration: none;
+    color: #3b82f6;
+    padding: 0.5rem;
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+    background-color: #fff;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a:hover {
+    background-color: #3b82f6;
+    color: #fff;
+}
+
+/* Seção de rotas */
+#rotas-disponiveis {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-top: 2rem;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+/* Estilo para o parágrafo com link */
+p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: #555;
 }

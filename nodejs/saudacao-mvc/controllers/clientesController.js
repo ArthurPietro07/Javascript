@@ -2,7 +2,7 @@ const loginModel = require('../models/loginModel');
 
 
 module.exports = {
-    clientes: (req, res) => {
+    index: (req, res) => {
         res.sendFile('clientes.html', { root: './views' });
     },
 
