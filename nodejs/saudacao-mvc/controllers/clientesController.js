@@ -11,7 +11,7 @@ module.exports = {
   },
   loginMensagem: (req, res) => {
     const { email, senha } = req.body;
-    const mensagemP = loginModel.gerarMensagem(email, senha);
+    const mensagem = loginModel.gerarMensagem(email, senha);
     res.send(`<!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -20,7 +20,7 @@ module.exports = {
       <link rel="stylesheet" href="../stylesheets/estilo.css">
     </head>
     <body>
-      <h1>${mensagemP}</h1>
+      <h1 class="mensagem">${mensagem}</h1>
     </body>
     </html>`);
   }

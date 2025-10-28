@@ -70,3 +70,27 @@ p {
     margin-bottom: 1rem;
     color: #555;
 }
+/* Estilo aprimorado para o h1 (mensagem destacada) */
+h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    animation: brilhoSuave 3s ease-in-out infinite alternate;
+}
+
+/* Animação sutil de brilho */
+@keyframes brilhoSuave {
+    from {
+        text-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    }
+    to {
+        text-shadow: 0 2px 16px rgba(59, 130, 246, 0.45);
+    }
+}
